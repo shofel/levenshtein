@@ -43,3 +43,16 @@
                   (if (last-equal? a b) 0 1)))))
 
 (def levenshtein-distance f)
+
+(def -words-url
+  "https://raw.githubusercontent.com/dolph/dictionary/master/unix-words")
+
+(comment
+
+  (def words
+    (-> (slurp -words-url)
+         (s/split #"\n")))
+
+  (time (-> (take 20 words)
+            #_(combo/selections 2))))
+
