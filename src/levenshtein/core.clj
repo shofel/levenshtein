@@ -1,7 +1,7 @@
 (ns levenshtein.core
   (:gen-class)
   (:require
-    [clojure.string :as s]))
+    [clojure.string :as str]))
 
 ; // len_s and len_t are the number of characters in string s and t respectively
 ; int LevenshteinDistance(const char *s, int len_s, const char *t, int len_t)
@@ -24,7 +24,7 @@
   "Returns the given word without the last char"
   [x]
   (cond
-    (s/blank? x) x
+    (str/blank? x) x
     :else (subs x 0 (dec (count x)))))
 
 (defn last-equal?
@@ -35,8 +35,8 @@
 (defn f
   [a b]
   (cond
-    (s/blank? a) (count b)
-    (s/blank? b) (count a)
+    (str/blank? a) (count b)
+    (str/blank? b) (count a)
     :else (min (inc (f (without-last-char a) b))
                (inc (f a (without-last-char b)))
                (+ (f (without-last-char a) (without-last-char b))
@@ -51,7 +51,7 @@
 
   (def words
     (-> (slurp -words-url)
-         (s/split #"\n")))
+         (str/split #"\n")))
 
   (time (-> (take 20 words)
             #_(combo/selections 2))))
