@@ -18,14 +18,15 @@
 
 (defn f
   "Levenshtein distance between two words"
-  [a b]
-  (cond
-    (str/blank? a) (count b)
-    (str/blank? b) (count a)
-    :else (min (inc (f (without-last-char a) b))
-               (inc (f a (without-last-char b)))
-               (+ (f (without-last-char a) (without-last-char b))
-                  (if (last-equal? a b) 0 1)))))
+  ([[a b]] (f a b))
+  ([a b]
+   (cond
+     (str/blank? a) (count b)
+     (str/blank? b) (count a)
+     :else (min (inc (f (without-last-char a) b))
+                (inc (f a (without-last-char b)))
+                (+ (f (without-last-char a) (without-last-char b))
+                   (if (last-equal? a b) 0 1))))))
 
 (def levenshtein-distance f)
 
@@ -37,8 +38,12 @@
 
   (def words
     (-> (slurp -words-url)
-         (str/split #"\n")))
+        (str/split #"\n")))
 
-  (time (-> (take 20 words)
-            #_(combo/selections 2))))
+  (let [pairs (-> (take 10 words)
+                  (combo/selections 2))]
+    (->
+      (map levenshtein-distance pairs)
+      (doall)
+      (time))))
 

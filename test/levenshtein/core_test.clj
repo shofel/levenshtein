@@ -22,3 +22,6 @@
     (is (= (levenshtein-distance "ab" "abc") 1))
     (is (= (levenshtein-distance "ab" "bc") 2))
     (is (= (levenshtein-distance "water" "w1t1r") 2))))
+
+(deftest distance-of-the-pair
+  (is (= (levenshtein-distance ["" ""]) 0)))
