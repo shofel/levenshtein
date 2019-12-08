@@ -1,6 +1,7 @@
 (ns levenshtein.core
   (:gen-class)
   (:require
+    [clojure.math.combinatorics :as combo]
     [clojure.string :as str]))
 
 ; // len_s and len_t are the number of characters in string s and t respectively
@@ -33,6 +34,7 @@
   (= (take-last 1 a) (take-last 1 b)))
 
 (defn f
+  "Levenshtein distance between two words"
   [a b]
   (cond
     (str/blank? a) (count b)
@@ -44,10 +46,11 @@
 
 (def levenshtein-distance f)
 
-(def -words-url
-  "https://raw.githubusercontent.com/dolph/dictionary/master/unix-words")
 
 (comment
+
+  (def -words-url
+    "https://raw.githubusercontent.com/dolph/dictionary/master/unix-words")
 
   (def words
     (-> (slurp -words-url)
